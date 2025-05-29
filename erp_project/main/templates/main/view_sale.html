@@ -1,0 +1,15 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+  <h2>Sale Details</h2>
+
+  <p><strong>Product:</strong> {{ sale.product.name }}</p>
+  <p><strong>Category:</strong> {{ sale.product.category.name }}</p>
+  <p><strong>Employee:</strong> {{ sale.employee.name }}</p>
+  <p><strong>Date:</strong> {{ sale.date_time }}</p>
+  <p><strong>Quantity:</strong> {{ sale.quantity }}</p>
+  <p><strong>Price per unit:</strong> {{ sale.price }}</p>
+  <p><strong>Total Price:</strong> {{ sale.price|floatformat:2|add:"0" }} x {{ sale.quantity }} = {{ sale.price|floatformat:2|add:"0"|floatformat:"2" }}</p>
+
+  <a href="{% url 'sales' %}">Back to Sales List</a>
+{% endblock %}

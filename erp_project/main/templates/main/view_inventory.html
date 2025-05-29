@@ -1,0 +1,13 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+<h2>Inventory Details</h2>
+
+<p><strong>Product:</strong> {{ inventory.product.name }}</p>
+<p><strong>Supplier:</strong> {{ inventory.supplier.name }}</p>
+<p><strong>Quantity:</strong> {{ inventory.quantity }}</p>
+<p><strong>Unit Price:</strong> {{ inventory.unit_price }}</p>
+<p><strong>Date Received:</strong> {{ inventory.date_received }}</p>
+
+<a href="{% url 'inventory' %}">Back to Inventory List</a>
+{% endblock %}
