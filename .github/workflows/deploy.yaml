@@ -1,0 +1,34 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Add SSH key
+      uses: webfactory/ssh-agent@v0.8.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_KEY2 }}
+
+    - name: Deploy to EC2
+      run: |
+        ssh -o StrictHostKeyChecking=no ubuntu@44.233.149.95 << 'EOF'
+          cd /home/ubuntu/for_networking
+          git reset --hard HEAD
+          git pull origin main
+          source erp_project/venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          python3 erp_project/manage.py migrate
+          python3 erp_project/manage.py collectstatic --noinput
+          sudo systemctl restart gunicorn
+          sudo systemctl restart nginx
+        EOF
